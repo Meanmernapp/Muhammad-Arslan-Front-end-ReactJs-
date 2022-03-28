@@ -1,23 +1,26 @@
-import logo from './logo.svg';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import './App.css';
+import Home from './components/home/Home';
+import Navbar from './components/navbar/Navbar';
 
 function App() {
+  const [data,setData] = useState("");
+  useEffect(()=>{
+    const fetchData = async() => {
+     const apiResp =  await axios.get('https://randomuser.me/api/')
+     setData(apiResp.data);
+     console.log(apiResp);
+    }
+    fetchData();
+  },[])
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <Navbar data={data}/>
+        <br></br>
+        <h1>Profile Information:</h1>
+        <br></br>
+       <Home data = {data}/>      
     </div>
   );
 }
